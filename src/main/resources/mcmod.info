@@ -1,0 +1,16 @@
+[
+{
+  "modid": "supernatural_world",
+  "name": "The supernatural world",
+  "description": "This is a supernatural world, everyone is it has supernatural power, supernatural ability and supernatural skill.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["wxp"],
+  "credits": "The Forge and FML guys, for making this example",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

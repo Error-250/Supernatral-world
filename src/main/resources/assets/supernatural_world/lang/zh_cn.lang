@@ -1,0 +1,8 @@
+# key
+key.supernatural=展示魂力数据
+key.category.supernatural=魂力相关
+
+# container
+supernatural_player_container.supernatural_level=玩家魂力等級: %s
+supernatural_player_container.current_supernatural_power=玩家当前魂力值: %s
+supernatural_player_container.supernatural_power_max_limit=玩家魂力上限: %s

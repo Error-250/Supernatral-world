@@ -1,0 +1,8 @@
+# key
+key.supernatural=Show supernatural
+key.category.supernatural=supernatural_world
+
+# container
+supernatural_player_container.supernatural_level=Your supernatural level is %s
+supernatural_player_container.current_supernatural_power=Your current supernatural power is %s
+supernatural_player_container.supernatural_power_max_limit=Your supernatural power max is %s
