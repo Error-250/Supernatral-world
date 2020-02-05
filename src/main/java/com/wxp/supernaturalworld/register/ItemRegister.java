@@ -1,7 +1,7 @@
 package com.wxp.supernaturalworld.register;
 
 import com.wxp.supernaturalworld.config.SupernaturalConfig;
-import com.wxp.supernaturalworld.creativetab.SupernaturalWorldCreativeTab;
+import com.wxp.supernaturalworld.creativetab.SupernaturalRingCreativeTab;
 import com.wxp.supernaturalworld.item.SupernaturalRingItemI;
 import com.wxp.supernaturalworld.item.SupernaturalRingItemImpl;
 import com.wxp.supernaturalworld.manager.ItemManager;
@@ -35,9 +35,10 @@ public class ItemRegister {
         if (item instanceof SupernaturalRingItemImpl) {
           NonNullList<ItemStack> subItems = NonNullList.create();
           SupernaturalRingItemImpl supernaturalRingItem = (SupernaturalRingItemImpl) item;
-          supernaturalRingItem.getSubItems(SupernaturalWorldCreativeTab.INSTANCE, subItems);
+          supernaturalRingItem.getSubItems(SupernaturalRingCreativeTab.INSTANCE, subItems);
           for (ItemStack subItem : subItems) {
-            SupernaturalRingItemI.RingLevel ringLevel = supernaturalRingItem.getRingLevel(subItem);
+            SupernaturalRingItemI.RingLevel ringLevel =
+                SupernaturalRingItemImpl.getRingLevel(subItem);
             ModelLoader.setCustomModelResourceLocation(
                 subItem.getItem(),
                 subItem.getMetadata(),

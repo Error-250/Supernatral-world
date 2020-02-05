@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "side": "supernatural_world:blocks/supernatural_shop_side",
+    "top": "supernatural_world:blocks/supernatural_shop",
+    "bottom": "supernatural_world:blocks/supernatural_shop"
+  }
+}

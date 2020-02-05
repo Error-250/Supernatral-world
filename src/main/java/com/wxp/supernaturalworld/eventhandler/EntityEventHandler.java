@@ -1,14 +1,19 @@
 package com.wxp.supernaturalworld.eventhandler;
 
+import com.wxp.supernaturalworld.SupernaturalMod;
 import com.wxp.supernaturalworld.capability.SupernaturalEntityI;
+import com.wxp.supernaturalworld.capability.provider.BindingEntityProvider;
 import com.wxp.supernaturalworld.capability.provider.SupernaturalEntityProvider;
 import com.wxp.supernaturalworld.config.SupernaturalConfig;
+import com.wxp.supernaturalworld.item.SupernaturalRingItemImpl;
 import com.wxp.supernaturalworld.manager.CapabilityManager;
 import com.wxp.supernaturalworld.network.SupernaturalEntityMessage;
 import com.wxp.supernaturalworld.register.NetworkRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
@@ -27,6 +32,16 @@ public class EntityEventHandler {
       event.addCapability(
           new ResourceLocation(SupernaturalConfig.MOD_ID, "supernatural"),
           new SupernaturalEntityProvider());
+    }
+  }
+
+  @SubscribeEvent
+  public static void onAttachCapabilitiesItem(AttachCapabilitiesEvent<ItemStack> event) {
+    ItemStack item = event.getObject();
+    if (item.getItem() instanceof SupernaturalRingItemImpl) {
+      event.addCapability(
+          new ResourceLocation(SupernaturalConfig.MOD_ID, "binding_item"),
+          new BindingEntityProvider());
     }
   }
 

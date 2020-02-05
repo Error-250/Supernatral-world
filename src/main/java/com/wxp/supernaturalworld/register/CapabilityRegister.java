@@ -1,5 +1,6 @@
 package com.wxp.supernaturalworld.register;
 
+import com.wxp.supernaturalworld.capability.BindingEntityI;
 import com.wxp.supernaturalworld.capability.SupernaturalEntityI;
 import com.wxp.supernaturalworld.manager.CapabilityManager;
 
@@ -10,5 +11,9 @@ public class CapabilityRegister {
         SupernaturalEntityI.class,
         CapabilityManager.supernaturalCapabilityStorage,
         CapabilityManager.supernaturalEntityCapFactory);
+    net.minecraftforge.common.capabilities.CapabilityManager.INSTANCE.register(
+        BindingEntityI.class,
+        CapabilityManager.bindingEntityCapabilityStorage,
+        CapabilityManager.bindingEntityCapFactory);
   }
 }

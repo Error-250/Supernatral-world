@@ -55,7 +55,15 @@ public interface SupernaturalEntityI {
   int getPlayerSupernaturalPowerLevel();
 
   /**
+   * 获取玩家实际魂力等级
+   *
+   * @return 魂力等级
+   */
+  int getPlayerActualSupernaturalPowerLevel();
+
+  /**
    * 臨時方法
+   *
    * @return 返回ItemStackHandler
    */
   ItemStackHandler getSupernaturalRingHandler();

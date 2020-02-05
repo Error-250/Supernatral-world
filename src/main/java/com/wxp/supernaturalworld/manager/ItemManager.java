@@ -1,6 +1,7 @@
 package com.wxp.supernaturalworld.manager;
 
-import com.wxp.supernaturalworld.creativetab.SupernaturalWorldCreativeTab;
+import com.wxp.supernaturalworld.block.SupernaturalNormalBlockI;
+import com.wxp.supernaturalworld.creativetab.SupernaturalRingCreativeTab;
 import com.wxp.supernaturalworld.item.SupernaturalRingItemImpl;
 import net.minecraft.item.Item;
 
@@ -16,7 +17,10 @@ public class ItemManager {
   public static void initItem() {
     items = new ArrayList<>();
 
-    supernaturalRingItemImpl.setCreativeTab(SupernaturalWorldCreativeTab.INSTANCE);
+    for (SupernaturalNormalBlockI supernaturalNormalBlockI : BlockManager.getInitializedBlock()) {
+      items.add(supernaturalNormalBlockI.getItemBlock());
+    }
+    supernaturalRingItemImpl.setCreativeTab(SupernaturalRingCreativeTab.INSTANCE);
     items.add(supernaturalRingItemImpl);
   }
 

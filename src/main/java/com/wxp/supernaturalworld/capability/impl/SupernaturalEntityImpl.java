@@ -1,6 +1,5 @@
 package com.wxp.supernaturalworld.capability.impl;
 
-import com.wxp.supernaturalworld.SupernaturalMod;
 import com.wxp.supernaturalworld.capability.SupernaturalEntityI;
 import net.minecraftforge.items.ItemStackHandler;
 
@@ -56,6 +55,22 @@ public class SupernaturalEntityImpl implements SupernaturalEntityI {
 
   @Override
   public int getPlayerSupernaturalPowerLevel() {
+    int maxLevel = 0;
+    for (int i = 0; i < 9; i++) {
+      if (supernaturalRingSlots.getStackInSlot(i).isEmpty()) {
+        break;
+      }
+      maxLevel++;
+    }
+    int allowLevel = getPlayerActualSupernaturalPowerLevel();
+    if (allowLevel > (maxLevel + 1) * 10) {
+      return (maxLevel + 1) * 10;
+    }
+    return allowLevel;
+  }
+
+  @Override
+  public int getPlayerActualSupernaturalPowerLevel() {
     final int powerMaxMinutes0_10 = 10;
     final int powerMaxMinutes11_20 = 100;
     final int powerMaxMinutes21_30 = 200;
@@ -79,13 +94,6 @@ public class SupernaturalEntityImpl implements SupernaturalEntityI {
     final int powerMaxLimit95 = powerMaxLimit90 + 5 * powerMaxMinutes91_95;
     final int powerMaxLimit100 = powerMaxLimit95 + 5 * powerMaxMinutes96_100;
 
-    int maxLevel = 0;
-    for (int i = 0; i < 9; i++) {
-      if (supernaturalRingSlots.getStackInSlot(i).isEmpty()) {
-        break;
-      }
-      maxLevel++;
-    }
     int allowLevel = 0;
     if (supernaturalPowerMaxLimit <= powerMaxLimit10) {
       allowLevel = (int) (supernaturalPowerMaxLimit / powerMaxMinutes0_10);
@@ -111,9 +119,6 @@ public class SupernaturalEntityImpl implements SupernaturalEntityI {
       allowLevel = 95 + (int) (supernaturalPowerMaxLimit - powerMaxLimit95) / powerMaxMinutes96_100;
     } else {
       allowLevel = 100;
-    }
-    if (allowLevel > (maxLevel + 1) * 10) {
-      return (maxLevel + 1) * 10;
     }
     return allowLevel;
   }

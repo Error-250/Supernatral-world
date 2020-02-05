@@ -1,3 +1,15 @@
+# item
+item.supernatural_ring.name=Supernatural ring
+item.supernatural_ring_TEN.name=Ten year supernatural ring
+item.supernatural_ring_HUNDRED.name=Hundred year supernatural ring
+item.supernatural_ring_THOUSAND.name=Thousand year supernatural ring
+item.supernatural_ring_TEN_THOUSAND.name=Ten thousand year supernatural ring
+item.supernatural_ring_HUNDRED_THOUSAND.name=Hundred thousand year supernatural ring
+
+# item group
+itemGroup.supernatural_world=Supernatural world
+itemGroup.supernatural_world.supernatural_ring=Supernatural ring
+
 # key
 key.supernatural=Show supernatural
 key.category.supernatural=supernatural_world
@@ -6,3 +18,16 @@ key.category.supernatural=supernatural_world
 supernatural_player_container.supernatural_level=Your supernatural level is %s
 supernatural_player_container.current_supernatural_power=Your current supernatural power is %s
 supernatural_player_container.supernatural_power_max_limit=Your supernatural power max is %s
+
+# text
+text.supernatural_ring.rarity=Rarity %s
+text.supernatural_ring.years=Years %s
+text.supernatural_ring.bind=Is bind user %s
+text.supernatural_ring.skill.type=Supernatural ring type %s
+text.supernatural_ring.skill.attack=Add attack %s
+text.supernatural_ring.skill.defence=Add defence %s
+text.supernatural_ring.skill.desc=Skill %s
+text.supernatural_ring.rarity.Common=Common
+text.supernatural_ring.rarity.Uncommon=Uncommon
+text.supernatural_ring.rarity.Rare=Rare
+text.supernatural_ring.rarity.Epic=Epic

@@ -1,3 +1,15 @@
+# item
+item.supernatural_ring.name=魂环
+item.supernatural_ring_TEN.name=10年魂环
+item.supernatural_ring_HUNDRED.name=百年魂环
+item.supernatural_ring_THOUSAND.name=千年魂环
+item.supernatural_ring_TEN_THOUSAND.name=万年魂环
+item.supernatural_ring_HUNDRED_THOUSAND.name=十万年魂环
+
+# item group
+itemGroup.supernatural_world=超自然世界
+itemGroup.supernatural_world.supernatural_ring=魂环
+
 # key
 key.supernatural=展示魂力数据
 key.category.supernatural=魂力相关
@@ -6,3 +18,16 @@ key.category.supernatural=魂力相关
 supernatural_player_container.supernatural_level=玩家魂力等級: %s
 supernatural_player_container.current_supernatural_power=玩家当前魂力值: %s
 supernatural_player_container.supernatural_power_max_limit=玩家魂力上限: %s
+
+# text
+text.supernatural_ring.rarity=稀有度: %s
+text.supernatural_ring.years=魂环年限: %s
+text.supernatural_ring.bind=是否绑定玩家: %s
+text.supernatural_ring.skill.type=魂环类型: %s
+text.supernatural_ring.skill.attack=附加攻击: %s
+text.supernatural_ring.skill.defence=附加防御: %s
+text.supernatural_ring.skill.desc=技能描述: %s
+text.supernatural_ring.rarity.Common=常见
+text.supernatural_ring.rarity.Uncommon=不常见
+text.supernatural_ring.rarity.Rare=稀有
+text.supernatural_ring.rarity.Epic=史诗

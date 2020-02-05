@@ -1,6 +1,7 @@
 package com.wxp.supernaturalworld;
 
 import com.wxp.supernaturalworld.config.SupernaturalConfig;
+import com.wxp.supernaturalworld.manager.BlockManager;
 import com.wxp.supernaturalworld.manager.ItemManager;
 import com.wxp.supernaturalworld.manager.KeyManager;
 import com.wxp.supernaturalworld.proxy.ModProxy;
@@ -34,6 +35,7 @@ public class SupernaturalMod {
   public void preInit(FMLPreInitializationEvent event) {
     logger = event.getModLog();
     modProxy.preInit(event);
+    BlockManager.initBlock();
     ItemManager.initItem();
     KeyManager.initKey();
 

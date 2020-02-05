@@ -22,7 +22,7 @@ public class GuiSupernaturalPlayerContainer extends AbstractGuiAllPlayerInventor
       handler = supernaturalEntityI.getSupernaturalRingHandler();
 
       for (int i = 0; i < 9; i++) {
-        this.addSlotToContainer(new SupernaturalRingSlot(supernaturalEntityI, i));
+        this.addSlotToContainer(new SupernaturalRingSlot(entityPlayer, supernaturalEntityI, i));
       }
     }
   }
