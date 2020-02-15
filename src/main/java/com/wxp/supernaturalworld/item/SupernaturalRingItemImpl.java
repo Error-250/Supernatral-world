@@ -234,29 +234,6 @@ public class SupernaturalRingItemImpl extends Item implements SupernaturalRingIt
   }
 
   @Override
-  public ActionResult<ItemStack> onItemRightClick(
-      World worldIn, EntityPlayer playerIn, EnumHand handIn) {
-    ItemStack itemStack = playerIn.getHeldItemMainhand();
-    SupernaturalMod.logger.info(
-        "Year:{} level:{}",
-        SupernaturalRingItemImpl.getYears(itemStack),
-        SupernaturalRingItemImpl.getRingLevel(itemStack));
-    if (itemStack.hasCapability(CapabilityManager.bindingEntityICapability, null)) {
-      BindingEntityI bindingEntity =
-          itemStack.getCapability(CapabilityManager.bindingEntityICapability, null);
-      if (bindingEntity != null) {
-        if (bindingEntity.getBindingPlayerUuid() == null) {
-          SupernaturalMod.logger.info("Not bind user");
-        } else {
-          SupernaturalMod.logger.info(
-              "bindUser:{}", worldIn.getPlayerEntityByUUID(bindingEntity.getBindingPlayerUuid()));
-        }
-      }
-    }
-    return super.onItemRightClick(worldIn, playerIn, handIn);
-  }
-
-  @Override
   public EnumRarity getRarity(ItemStack stack) {
     RingLevel level = SupernaturalRingItemImpl.getRingLevel(stack);
     if (level == null) {

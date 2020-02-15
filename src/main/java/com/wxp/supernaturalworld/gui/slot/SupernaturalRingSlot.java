@@ -4,8 +4,6 @@ import com.wxp.supernaturalworld.capability.BindingEntityI;
 import com.wxp.supernaturalworld.capability.SupernaturalEntityI;
 import com.wxp.supernaturalworld.item.SupernaturalRingItemImpl;
 import com.wxp.supernaturalworld.manager.CapabilityManager;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
@@ -33,7 +31,15 @@ public class SupernaturalRingSlot extends SlotItemHandler {
 
   @Override
   public boolean isEnabled() {
-    return supernaturalEntity.getPlayerActualSupernaturalPowerLevel() >= (index + 1) * 10;
+    if (supernaturalEntity != null) {
+      return supernaturalEntity.getPlayerActualSupernaturalPowerLevel() >= (index + 1) * 10;
+    }
+    return Boolean.TRUE;
+  }
+
+  @Override
+  public boolean canTakeStack(EntityPlayer playerIn) {
+    return playerIn == entityPlayer;
   }
 
   @Override
@@ -65,12 +71,14 @@ public class SupernaturalRingSlot extends SlotItemHandler {
 
   @Override
   public void putStack(@Nonnull ItemStack stack) {
-    if (stack.getItem() instanceof SupernaturalRingItemImpl) {
-      if (stack.hasCapability(CapabilityManager.bindingEntityICapability, null)) {
-        BindingEntityI bindingEntity =
-            stack.getCapability(CapabilityManager.bindingEntityICapability, null);
-        if (bindingEntity != null && bindingEntity.getBindingPlayerUuid() == null) {
-          bindingEntity.bindPlayer(entityPlayer.getUniqueID());
+    if (entityPlayer != null) {
+      if (stack.getItem() instanceof SupernaturalRingItemImpl) {
+        if (stack.hasCapability(CapabilityManager.bindingEntityICapability, null)) {
+          BindingEntityI bindingEntity =
+              stack.getCapability(CapabilityManager.bindingEntityICapability, null);
+          if (bindingEntity != null && bindingEntity.getBindingPlayerUuid() == null) {
+            bindingEntity.bindPlayer(entityPlayer.getUniqueID());
+          }
         }
       }
     }

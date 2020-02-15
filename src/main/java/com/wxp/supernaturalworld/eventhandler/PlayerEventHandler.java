@@ -1,6 +1,5 @@
 package com.wxp.supernaturalworld.eventhandler;
 
-import com.wxp.supernaturalworld.SupernaturalMod;
 import com.wxp.supernaturalworld.capability.SupernaturalEntityI;
 import com.wxp.supernaturalworld.config.SupernaturalConfig;
 import com.wxp.supernaturalworld.item.SupernaturalRingItemI;
@@ -8,8 +7,6 @@ import com.wxp.supernaturalworld.item.SupernaturalRingItemImpl;
 import com.wxp.supernaturalworld.manager.CapabilityManager;
 import com.wxp.supernaturalworld.network.SupernaturalEntityMessage;
 import com.wxp.supernaturalworld.register.NetworkRegister;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -67,13 +64,8 @@ public class PlayerEventHandler {
       }
       supernaturalEntity.setPlayerSupernaturalPowerMaxLimit(
           supernaturalEntity.getPlayerSupernaturalPowerMaxLimit() + event.getOrb().getXpValue());
-
-      NBTBase base =
-          CapabilityManager.supernaturalCapabilityStorage.writeNBT(
-              CapabilityManager.supernaturalEntityICapability, supernaturalEntity, null);
-      NetworkRegister.simpleNetworkWrapper.sendTo(
-          new SupernaturalEntityMessage((NBTTagCompound) base),
-          (EntityPlayerMP) event.getEntityPlayer());
+      NetworkRegister.syncSupernaturalEntityMessage(
+          supernaturalEntity, (EntityPlayerMP) event.getEntityPlayer());
     }
   }
 

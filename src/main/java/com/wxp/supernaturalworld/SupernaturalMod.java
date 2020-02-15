@@ -4,6 +4,7 @@ import com.wxp.supernaturalworld.config.SupernaturalConfig;
 import com.wxp.supernaturalworld.manager.BlockManager;
 import com.wxp.supernaturalworld.manager.ItemManager;
 import com.wxp.supernaturalworld.manager.KeyManager;
+import com.wxp.supernaturalworld.manager.ShopMenuManager;
 import com.wxp.supernaturalworld.proxy.ModProxy;
 import com.wxp.supernaturalworld.register.CapabilityRegister;
 import com.wxp.supernaturalworld.register.NetworkRegister;
@@ -41,6 +42,8 @@ public class SupernaturalMod {
 
     CapabilityRegister.registerCapability();
     NetworkRegister.registerNetwork();
+
+    ShopMenuManager.initShopMenu();
   }
 
   @EventHandler

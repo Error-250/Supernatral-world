@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 @NoArgsConstructor
 @Getter
 public class AbstractNbtMessage implements IMessage {
-  private NBTTagCompound nbt = null;
+  protected NBTTagCompound nbt = null;
 
   public AbstractNbtMessage(NBTTagCompound nbtTagCompound) {
     this.nbt = nbtTagCompound;

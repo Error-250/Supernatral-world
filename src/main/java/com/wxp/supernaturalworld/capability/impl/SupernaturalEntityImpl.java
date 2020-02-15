@@ -8,6 +8,7 @@ public class SupernaturalEntityImpl implements SupernaturalEntityI {
   private Long supernaturalPowerMaxLimit;
   private Long supernaturalPower;
   private ItemStackHandler supernaturalRingSlots;
+  private Long money = 0L;
 
   public SupernaturalEntityImpl() {
     this.supernaturalPower = 0L;
@@ -121,6 +122,16 @@ public class SupernaturalEntityImpl implements SupernaturalEntityI {
       allowLevel = 100;
     }
     return allowLevel;
+  }
+
+  @Override
+  public Long getPlayerSupernaturalMoney() {
+    return money;
+  }
+
+  @Override
+  public void setPlayerSupernaturalMoney(Long money) {
+    this.money = money;
   }
 
   @Override

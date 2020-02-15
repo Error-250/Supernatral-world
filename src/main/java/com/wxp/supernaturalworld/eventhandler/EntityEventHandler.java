@@ -1,6 +1,5 @@
 package com.wxp.supernaturalworld.eventhandler;
 
-import com.wxp.supernaturalworld.SupernaturalMod;
 import com.wxp.supernaturalworld.capability.SupernaturalEntityI;
 import com.wxp.supernaturalworld.capability.provider.BindingEntityProvider;
 import com.wxp.supernaturalworld.capability.provider.SupernaturalEntityProvider;
@@ -12,7 +11,6 @@ import com.wxp.supernaturalworld.register.NetworkRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -55,11 +53,7 @@ public class EntityEventHandler {
         if (supernaturalEntityI == null) {
           return;
         }
-        NBTBase base =
-            CapabilityManager.supernaturalCapabilityStorage.writeNBT(
-                CapabilityManager.supernaturalEntityICapability, supernaturalEntityI, null);
-        NetworkRegister.simpleNetworkWrapper.sendTo(
-            new SupernaturalEntityMessage((NBTTagCompound) base), player);
+        NetworkRegister.syncSupernaturalEntityMessage(supernaturalEntityI, player);
       }
     }
   }

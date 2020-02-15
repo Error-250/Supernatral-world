@@ -10,6 +10,9 @@ item.supernatural_ring_HUNDRED_THOUSAND.name=Hundred thousand year supernatural 
 itemGroup.supernatural_world=Supernatural world
 itemGroup.supernatural_world.supernatural_ring=Supernatural ring
 
+# block
+tile.supernatural_shop.name=Supernatural shop
+
 # key
 key.supernatural=Show supernatural
 key.category.supernatural=supernatural_world

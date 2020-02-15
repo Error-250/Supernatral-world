@@ -62,6 +62,20 @@ public interface SupernaturalEntityI {
   int getPlayerActualSupernaturalPowerLevel();
 
   /**
+   * 获取玩家当前魂币
+   *
+   * @return 魂币值
+   */
+  Long getPlayerSupernaturalMoney();
+
+  /**
+   * 设置玩家魂币
+   *
+   * @param money 魂币值
+   */
+  void setPlayerSupernaturalMoney(Long money);
+
+  /**
    * 臨時方法
    *
    * @return 返回ItemStackHandler

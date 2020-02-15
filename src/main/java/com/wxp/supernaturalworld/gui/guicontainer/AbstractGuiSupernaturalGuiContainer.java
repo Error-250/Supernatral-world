@@ -31,4 +31,10 @@ public abstract class AbstractGuiSupernaturalGuiContainer extends GuiContainer {
 
     this.drawTexturedModalRect(middleOffsetX, middleOffsetY, 0, 0, this.xSize, this.ySize);
   }
+
+  @Override
+  public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    super.drawScreen(mouseX, mouseY, partialTicks);
+    this.renderHoveredToolTip(mouseX, mouseY);
+  }
 }

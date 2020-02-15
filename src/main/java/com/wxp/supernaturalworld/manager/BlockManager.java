@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * @author wxp
+ */
 public class BlockManager {
   public static SupernaturalShopBlock supernaturalShopBlock;
 

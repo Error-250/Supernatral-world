@@ -19,6 +19,7 @@ public class SupernaturalCapabilityStorage implements Capability.IStorage<Supern
         "current_supernatural_power", instance.getPlayerCurrentSupernaturalPower());
     nbtTagCompound.setLong(
         "supernatural_power_max_limit", instance.getPlayerSupernaturalPowerMaxLimit());
+    nbtTagCompound.setLong("supernatural_money", instance.getPlayerSupernaturalMoney());
     nbtTagCompound.setTag(
         "supernatural_ring", instance.getSupernaturalRingHandler().serializeNBT());
     return nbtTagCompound;
@@ -35,6 +36,7 @@ public class SupernaturalCapabilityStorage implements Capability.IStorage<Supern
         nbtTagCompound.getLong("current_supernatural_power"));
     instance.setPlayerSupernaturalPowerMaxLimit(
         nbtTagCompound.getLong("supernatural_power_max_limit"));
+    instance.setPlayerSupernaturalMoney(nbtTagCompound.getLong("supernatural_money"));
     instance
         .getSupernaturalRingHandler()
         .deserializeNBT(nbtTagCompound.getCompoundTag("supernatural_ring"));

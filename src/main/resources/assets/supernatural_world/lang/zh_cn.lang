@@ -10,6 +10,9 @@ item.supernatural_ring_HUNDRED_THOUSAND.name=十万年魂环
 itemGroup.supernatural_world=超自然世界
 itemGroup.supernatural_world.supernatural_ring=魂环
 
+# block
+tile.supernatural_shop.name=魂环商店
+
 # key
 key.supernatural=展示魂力数据
 key.category.supernatural=魂力相关
