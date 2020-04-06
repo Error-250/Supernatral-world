@@ -4,7 +4,6 @@ import com.wxp.supernaturalworld.capability.SupernaturalEntityI;
 import com.wxp.supernaturalworld.config.SupernaturalConfig;
 import com.wxp.supernaturalworld.gui.button.GuiImageButton;
 import com.wxp.supernaturalworld.gui.container.GuiSupernaturalShopContainer;
-import com.wxp.supernaturalworld.item.SupernaturalRingItemI;
 import com.wxp.supernaturalworld.manager.CapabilityManager;
 import com.wxp.supernaturalworld.manager.ShopMenuManager;
 import com.wxp.supernaturalworld.network.GuiShopContainerMessage;
@@ -15,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +32,7 @@ public class GuiSupernaturalShopGuiContainer extends AbstractGuiSupernaturalGuiC
   private GuiImageButton rightSliderButton;
   private GuiImageButton rightYearSliderButton;
   private GuiImageButton rightLevelSliderButton;
-  private int index = 0;
+  private int index = 5;
 
   public GuiSupernaturalShopGuiContainer(GuiSupernaturalShopContainer container) {
     super(container);
@@ -48,17 +48,12 @@ public class GuiSupernaturalShopGuiContainer extends AbstractGuiSupernaturalGuiC
   @Override
   public void updateScreen() {
     super.updateScreen();
-    leftLevelSliderButton.setEnable(index >= 9 * SupernaturalRingItemI.RingType.values().length);
-    leftYearSliderButton.setEnable(index >= SupernaturalRingItemI.RingType.values().length);
-    leftSliderButton.setEnable(index != 0);
+    leftLevelSliderButton.setEnable(ShopMenuManager.getPreLevelIndexInSellItem(index) != -1);
+    leftYearSliderButton.setEnable(ShopMenuManager.getPreTypeIndexInSellItem(index) != -1);
+    leftSliderButton.setEnable(index != 5);
     rightSliderButton.setEnable(index != ShopMenuManager.getSellItemSize() - 1);
-    rightYearSliderButton.setEnable(
-        index
-            <= ShopMenuManager.getSellItemSize() - SupernaturalRingItemI.RingType.values().length);
-    rightLevelSliderButton.setEnable(
-        index
-            <= ShopMenuManager.getSellItemSize()
-                - 9 * SupernaturalRingItemI.RingType.values().length);
+    rightYearSliderButton.setEnable(ShopMenuManager.getNextTypeIndexInSellItem(index) != -1);
+    rightLevelSliderButton.setEnable(ShopMenuManager.getNextLevelIndexInSellItem(index) != -1);
     if (supernaturalShopContainer
         .getEntityPlayer()
         .hasCapability(CapabilityManager.supernaturalEntityICapability, null)) {
@@ -172,18 +167,38 @@ public class GuiSupernaturalShopGuiContainer extends AbstractGuiSupernaturalGuiC
     switch (buttonId) {
       case 0:
         // sell
-        NetworkRegister.simpleNetworkWrapper.sendToServer(new ShopSellMessage(index, 1));
+        ItemStack itemStack = supernaturalShopContainer.getSupernaturalShopSellSlot().getStack();
+        Iterator<ShopMenuManager.ShopMenu> iterator =
+            ShopMenuManager.getInitializedShopMenu().iterator();
+        int i = 0;
+        while (iterator.hasNext()) {
+          ShopMenuManager.ShopMenu shopMenu = iterator.next();
+          if (itemStack.getItem() == shopMenu.getBuyItem().getItem()
+              && itemStack.getMetadata() == shopMenu.getBuyItem().getMetadata()) {
+            NetworkRegister.simpleNetworkWrapper.sendToServer(new ShopSellMessage(i, 1));
+            break;
+          }
+          i++;
+        }
         break;
       case 1:
         // buy
         NetworkRegister.simpleNetworkWrapper.sendToServer(new ShopSellMessage(index, 2));
         break;
       case 2:
-        index -= 9 * SupernaturalRingItemI.RingType.values().length;
+        int preLevelIndex = ShopMenuManager.getPreLevelIndexInSellItem(index);
+        if (preLevelIndex == -1) {
+          preLevelIndex = 5;
+        }
+        index = preLevelIndex;
         indexChangeFlag = true;
         break;
       case 3:
-        index -= SupernaturalRingItemI.RingType.values().length;
+        int preTypeIndex = ShopMenuManager.getPreTypeIndexInSellItem(index);
+        if (preTypeIndex == -1) {
+          preTypeIndex = 5;
+        }
+        index = preTypeIndex;
         indexChangeFlag = true;
         break;
       case 4:
@@ -197,11 +212,19 @@ public class GuiSupernaturalShopGuiContainer extends AbstractGuiSupernaturalGuiC
         indexChangeFlag = true;
         break;
       case 6:
-        index += SupernaturalRingItemI.RingType.values().length;
+        int nextTypeIndex = ShopMenuManager.getNextTypeIndexInSellItem(index);
+        if (nextTypeIndex == -1) {
+          nextTypeIndex = 0;
+        }
+        index = nextTypeIndex;
         indexChangeFlag = true;
         break;
       case 7:
-        index += 9 * SupernaturalRingItemI.RingType.values().length;
+        int nextLevelIndex = ShopMenuManager.getNextLevelIndexInSellItem(index);
+        if (nextLevelIndex == -1) {
+          nextLevelIndex = 0;
+        }
+        index = nextLevelIndex;
         indexChangeFlag = true;
         break;
       default:

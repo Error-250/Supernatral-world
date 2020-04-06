@@ -1,7 +1,7 @@
 package com.wxp.supernaturalworld.creativetab;
 
 import com.wxp.supernaturalworld.config.SupernaturalConfig;
-import com.wxp.supernaturalworld.manager.ItemManager;
+import com.wxp.supernaturalworld.item.SupernaturalRingItemImpl;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
@@ -18,6 +18,6 @@ public class SupernaturalRingCreativeTab extends CreativeTabs {
   @SideOnly(Side.CLIENT)
   @Override
   public ItemStack getTabIconItem() {
-    return new ItemStack(ItemManager.supernaturalRingItemImpl, 1, 1100);
+    return SupernaturalRingItemImpl.tenYearAttackRing;
   }
 }

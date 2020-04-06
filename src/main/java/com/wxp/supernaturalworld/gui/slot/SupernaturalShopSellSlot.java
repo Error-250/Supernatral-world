@@ -1,7 +1,6 @@
 package com.wxp.supernaturalworld.gui.slot;
 
 import com.wxp.supernaturalworld.capability.BindingEntityI;
-import com.wxp.supernaturalworld.item.SupernaturalRingItemImpl;
 import com.wxp.supernaturalworld.manager.CapabilityManager;
 import com.wxp.supernaturalworld.manager.ShopMenuManager;
 import net.minecraft.item.ItemStack;

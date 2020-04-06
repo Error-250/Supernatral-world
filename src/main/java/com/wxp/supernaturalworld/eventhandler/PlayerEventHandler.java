@@ -5,13 +5,11 @@ import com.wxp.supernaturalworld.config.SupernaturalConfig;
 import com.wxp.supernaturalworld.item.SupernaturalRingItemI;
 import com.wxp.supernaturalworld.item.SupernaturalRingItemImpl;
 import com.wxp.supernaturalworld.manager.CapabilityManager;
-import com.wxp.supernaturalworld.network.SupernaturalEntityMessage;
 import com.wxp.supernaturalworld.register.NetworkRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -78,19 +76,30 @@ public class PlayerEventHandler {
         SupernaturalEntityI supernaturalEntityI =
             attacker.getCapability(CapabilityManager.supernaturalEntityICapability, null);
         if (supernaturalEntityI != null) {
+          float baseAttachAttack = supernaturalEntityI.getPlayerSupernaturalPowerLevel() * 0.5f;
+          float attackDoubleRate = 0f;
           ItemStackHandler handler = supernaturalEntityI.getSupernaturalRingHandler();
-          float attachAttack = 0;
           for (int i = 0; i < handler.getSlots(); i++) {
             ItemStack stack = handler.getStackInSlot(i);
             if (stack.isEmpty()) {
               continue;
             }
             SupernaturalRingItemI.RingSkill skill = SupernaturalRingItemImpl.getRingSkill(stack);
-            attachAttack += skill.getAttack();
+            if (SupernaturalRingItemI.RingSkill.SkillType.ATTACK_UP.equals(skill.getSkillType())
+                || SupernaturalRingItemI.RingSkill.SkillType.ATTACK_UP_AND_DOUBLE.equals(
+                    skill.getSkillType())) {
+              baseAttachAttack += skill.getAttack();
+            }
+            if (SupernaturalRingItemI.RingSkill.SkillType.ATTACK_DOUBLE.equals(skill.getSkillType())
+                || SupernaturalRingItemI.RingSkill.SkillType.ATTACK_UP_AND_DOUBLE.equals(
+                    skill.getSkillType())) {
+              attackDoubleRate += skill.getAttackDoubleRate();
+            }
           }
-          if (attachAttack > 0) {
-            event.setAmount(event.getAmount() + attachAttack);
+          if (attackDoubleRate > 0) {
+            baseAttachAttack = baseAttachAttack * attackDoubleRate;
           }
+          event.setAmount(event.getAmount() + baseAttachAttack);
         }
       }
     }
@@ -100,19 +109,31 @@ public class PlayerEventHandler {
         SupernaturalEntityI supernaturalEntityI =
             target.getCapability(CapabilityManager.supernaturalEntityICapability, null);
         if (supernaturalEntityI != null) {
+          float baseAttachDefence = supernaturalEntityI.getPlayerSupernaturalPowerLevel() * 0.25f;
+          float defenceDoubleRate = 0;
           ItemStackHandler handler = supernaturalEntityI.getSupernaturalRingHandler();
-          float attachDefence = 0;
           for (int i = 0; i < handler.getSlots(); i++) {
             ItemStack stack = handler.getStackInSlot(i);
             if (stack.isEmpty()) {
               continue;
             }
             SupernaturalRingItemI.RingSkill skill = SupernaturalRingItemImpl.getRingSkill(stack);
-            attachDefence += skill.getDefence();
+            if (SupernaturalRingItemI.RingSkill.SkillType.DEFENCE_UP.equals(skill.getSkillType())
+                || SupernaturalRingItemI.RingSkill.SkillType.DEFENCE_UP_AND_DOUBLE.equals(
+                    skill.getSkillType())) {
+              baseAttachDefence += skill.getDefence();
+            }
+            if (SupernaturalRingItemI.RingSkill.SkillType.DEFENCE_DOUBLE.equals(
+                    skill.getSkillType())
+                || SupernaturalRingItemI.RingSkill.SkillType.DEFENCE_UP_AND_DOUBLE.equals(
+                    skill.getSkillType())) {
+              defenceDoubleRate += skill.getDefenceDoubleRate();
+            }
           }
-          if (attachDefence > 0) {
-            event.setAmount(event.getAmount() - attachDefence * 0.8f);
+          if (defenceDoubleRate > 0) {
+            baseAttachDefence = baseAttachDefence * defenceDoubleRate;
           }
+          event.setAmount(event.getAmount() - baseAttachDefence * 0.8f);
         }
       }
     }

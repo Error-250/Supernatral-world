@@ -17,7 +17,7 @@ public class GuiSupernaturalShopContainer extends AbstractGuiAllPlayerInventoryC
   private ItemStackHandler sellSlot = new ItemStackHandler(2);
   private SupernaturalShopSellSlot supernaturalShopSellSlot;
   private SupernaturalRingSlot supernaturalShopBuySlot;
-  private int index = 0;
+  private int index = 5;
 
   public GuiSupernaturalShopContainer(EntityPlayer entityPlayer) {
     super(entityPlayer);

@@ -2,34 +2,37 @@ package com.wxp.supernaturalworld.item;
 
 import lombok.Data;
 import lombok.Getter;
-import net.minecraft.item.ItemStack;
 
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 /** @author wxp */
 public interface SupernaturalRingItemI {
-  /**
-   * 获取魂环等级
-   *
-   * @param stack ItemStack
-   * @return 魂环等级
-   */
-  //  RingLevel getRingLevel(ItemStack stack);
-
-  /**
-   * 获取魂环年限
-   *
-   * @param
-   * @return 魂环年限
-   */
-  //  int getYears(ItemStack stack);
-
   @Data
-  public static class RingSkill {
-    private float attack;
-    private float defence;
+  class RingSkill {
+    private Float attack;
+    private Float attackDoubleRate;
+    private Float defence;
+    private Float defenceDoubleRate;
     private RingType ringType;
+    private SkillType skillType;
     private String skillDesc;
+
+    public enum SkillType {
+      ATTACK_UP,
+      DEFENCE_UP,
+      ATTACK_DOUBLE,
+      DEFENCE_DOUBLE,
+      ATTACK_UP_AND_DOUBLE,
+      DEFENCE_UP_AND_DOUBLE;
+
+      public static SkillType valueOfNumber(int num) {
+        return Arrays.stream(values())
+            .filter(allowSkillType -> allowSkillType.ordinal() == num)
+            .findFirst()
+            .orElse(null);
+      }
+    }
   }
 
   @Getter
@@ -52,7 +55,7 @@ public interface SupernaturalRingItemI {
     }
   }
 
-  public enum RingLevel {
+  enum RingLevel {
     TEN,
     HUNDRED,
     THOUSAND,

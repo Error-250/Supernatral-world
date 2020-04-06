@@ -1,9 +1,7 @@
 package com.wxp.supernaturalworld.gui.container;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.ItemStack;
 
 /** @author wxp */
 public abstract class AbstractGuiAllPlayerInventoryContainer extends AbstractGuiContainer {

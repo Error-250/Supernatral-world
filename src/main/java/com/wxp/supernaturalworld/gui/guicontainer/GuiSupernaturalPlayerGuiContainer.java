@@ -4,32 +4,22 @@ import com.wxp.supernaturalworld.capability.SupernaturalEntityI;
 import com.wxp.supernaturalworld.config.SupernaturalConfig;
 import com.wxp.supernaturalworld.gui.container.GuiSupernaturalPlayerContainer;
 import com.wxp.supernaturalworld.manager.CapabilityManager;
-import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentTranslation;
 
 /** @author wxp */
-public class GuiSupernaturalPlayerGuiContainer extends GuiContainer {
+public class GuiSupernaturalPlayerGuiContainer extends AbstractGuiSupernaturalGuiContainer {
   private static final ResourceLocation TEXTURE =
       new ResourceLocation(
           SupernaturalConfig.MOD_ID, "textures/gui/container/supernatural_player_gui.png");
 
   public GuiSupernaturalPlayerGuiContainer(GuiSupernaturalPlayerContainer container) {
     super(container);
-    this.xSize = 176;
-    this.ySize = 156;
   }
 
   @Override
-  protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-    GlStateManager.color(1.0F, 1.0F, 1.0F);
-
-    this.mc.getTextureManager().bindTexture(TEXTURE);
-    int xOffset = (this.width - this.xSize) / 2;
-    int yOffset = (this.height - this.ySize) / 2;
-
-    this.drawTexturedModalRect(xOffset, yOffset, 0, 0, this.xSize, this.ySize);
+  ResourceLocation getBackgroundResource() {
+    return TEXTURE;
   }
 
   @Override

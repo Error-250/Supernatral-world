@@ -9,7 +9,6 @@ import com.wxp.supernaturalworld.network.OpenGuiMessage;
 import com.wxp.supernaturalworld.register.NetworkRegister;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

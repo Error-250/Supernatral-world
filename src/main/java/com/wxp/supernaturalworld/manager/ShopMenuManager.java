@@ -39,13 +39,63 @@ public class ShopMenuManager {
   }
 
   public static ShopMenu getSellItem(int index) {
-    index = index % (shopMenus.size() - 5);
-    index += 5;
     return shopMenus.get(index);
   }
 
+  public static int getNextTypeIndexInSellItem(int index) {
+    SupernaturalRingItemI.RingSkill.SkillType skillType =
+        SupernaturalRingItemImpl.getSkillType(shopMenus.get(index).getSellItem());
+    for (int i = index; i < shopMenus.size(); i++) {
+      SupernaturalRingItemI.RingSkill.SkillType itemSkillType =
+          SupernaturalRingItemImpl.getSkillType(shopMenus.get(i).getSellItem());
+      if (!skillType.equals(itemSkillType)) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  public static int getPreTypeIndexInSellItem(int index) {
+    SupernaturalRingItemI.RingSkill.SkillType skillType =
+        SupernaturalRingItemImpl.getSkillType(shopMenus.get(index).getSellItem());
+    for (int i = index; i > 0; i--) {
+      SupernaturalRingItemI.RingSkill.SkillType itemSkillType =
+          SupernaturalRingItemImpl.getSkillType(shopMenus.get(i).getSellItem());
+      if (!skillType.equals(itemSkillType)) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  public static int getNextLevelIndexInSellItem(int index) {
+    SupernaturalRingItemI.RingLevel oldLevel =
+        SupernaturalRingItemImpl.getRingLevel(shopMenus.get(index).getSellItem());
+    for (int i = index; i < shopMenus.size(); i++) {
+      SupernaturalRingItemI.RingLevel itemRingLevel =
+          SupernaturalRingItemImpl.getRingLevel(shopMenus.get(i).getSellItem());
+      if (!oldLevel.equals(itemRingLevel)) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  public static int getPreLevelIndexInSellItem(int index) {
+    SupernaturalRingItemI.RingLevel oldLevel =
+        SupernaturalRingItemImpl.getRingLevel(shopMenus.get(index).getSellItem());
+    for (int i = index; i > 0; i--) {
+      SupernaturalRingItemI.RingLevel itemRingLevel =
+          SupernaturalRingItemImpl.getRingLevel(shopMenus.get(i).getSellItem());
+      if (!oldLevel.equals(itemRingLevel)) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
   public static int getSellItemSize() {
-    return shopMenus.size() - 5;
+    return shopMenus.size();
   }
 
   private static long calculateSellPrice(ItemStack itemStack) {
@@ -57,16 +107,16 @@ public class ShopMenuManager {
         base = 10;
         break;
       case HUNDRED:
-        base = 100;
+        base = 50;
         break;
       case THOUSAND:
-        base = 1000;
+        base = 250;
         break;
       case TEN_THOUSAND:
-        base = 10000;
+        base = 1250;
         break;
       case HUNDRED_THOUSAND:
-        base = 100000;
+        base = 6250;
         break;
       default:
     }
