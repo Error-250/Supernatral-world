@@ -76,7 +76,9 @@ public class PlayerEventHandler {
         SupernaturalEntityI supernaturalEntityI =
             attacker.getCapability(CapabilityManager.supernaturalEntityICapability, null);
         if (supernaturalEntityI != null) {
-          float baseAttachAttack = supernaturalEntityI.getPlayerSupernaturalPowerLevel() * 0.5f;
+          float baseAttachAttack =
+              supernaturalEntityI.getPlayerSupernaturalPowerLevel()
+                  * SupernaturalConfig.supernaturalPowerConfig.attackUpPerPowerLevel.floatValue();
           float attackDoubleRate = 0f;
           ItemStackHandler handler = supernaturalEntityI.getSupernaturalRingHandler();
           for (int i = 0; i < handler.getSlots(); i++) {
@@ -109,7 +111,9 @@ public class PlayerEventHandler {
         SupernaturalEntityI supernaturalEntityI =
             target.getCapability(CapabilityManager.supernaturalEntityICapability, null);
         if (supernaturalEntityI != null) {
-          float baseAttachDefence = supernaturalEntityI.getPlayerSupernaturalPowerLevel() * 0.25f;
+          float baseAttachDefence =
+              supernaturalEntityI.getPlayerSupernaturalPowerLevel()
+                  * SupernaturalConfig.supernaturalPowerConfig.defenceUpPerPowerLevel.floatValue();
           float defenceDoubleRate = 0;
           ItemStackHandler handler = supernaturalEntityI.getSupernaturalRingHandler();
           for (int i = 0; i < handler.getSlots(); i++) {

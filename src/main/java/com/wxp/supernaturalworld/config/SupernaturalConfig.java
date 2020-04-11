@@ -14,6 +14,7 @@ public class SupernaturalConfig {
   @Config.Ignore
   public static final String VERSION = "1.0";
   public static SupernaturalPowerConfig supernaturalPowerConfig = new SupernaturalPowerConfig();
+  public static SupernaturalRingConfig supernaturalRingConfig = new SupernaturalRingConfig();
 
   public static class SupernaturalPowerConfig {
     @Config.RangeInt(min = 1)
@@ -49,5 +50,23 @@ public class SupernaturalConfig {
     @Config.RangeInt(min = 1)
     @Config.Comment("power from 96 to 100 need powers")
     public int powerBetween96and100 = 10000;
+
+    @Config.RangeDouble(min = 0)
+    @Config.Comment("attack up per power level")
+    public Double attackUpPerPowerLevel = 0.5;
+
+    @Config.RangeDouble(min = 0)
+    @Config.Comment("defence up per power level")
+    public Double defenceUpPerPowerLevel = 0.25;
+  }
+
+  public static class SupernaturalRingConfig {
+    @Config.RangeInt(min = 0, max = 99)
+    @Config.Comment("min scale for supernatural ring drop.")
+    public int minSupernaturalRingDropScale = 48;
+
+    @Config.RangeInt(min = 0, max = 99)
+    @Config.Comment("min scale for supernatural ring drop.")
+    public int maxSupernaturalRingDropScale = 53;
   }
 }

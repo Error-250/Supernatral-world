@@ -58,7 +58,7 @@ public class ShopMenuManager {
   public static int getPreTypeIndexInSellItem(int index) {
     SupernaturalRingItemI.RingSkill.SkillType skillType =
         SupernaturalRingItemImpl.getSkillType(shopMenus.get(index).getSellItem());
-    for (int i = index; i > 0; i--) {
+    for (int i = index; i > 4; i--) {
       SupernaturalRingItemI.RingSkill.SkillType itemSkillType =
           SupernaturalRingItemImpl.getSkillType(shopMenus.get(i).getSellItem());
       if (!skillType.equals(itemSkillType)) {
@@ -84,7 +84,7 @@ public class ShopMenuManager {
   public static int getPreLevelIndexInSellItem(int index) {
     SupernaturalRingItemI.RingLevel oldLevel =
         SupernaturalRingItemImpl.getRingLevel(shopMenus.get(index).getSellItem());
-    for (int i = index; i > 0; i--) {
+    for (int i = index; i > 4; i--) {
       SupernaturalRingItemI.RingLevel itemRingLevel =
           SupernaturalRingItemImpl.getRingLevel(shopMenus.get(i).getSellItem());
       if (!oldLevel.equals(itemRingLevel)) {
@@ -120,7 +120,7 @@ public class ShopMenuManager {
         break;
       default:
     }
-    int year = metaData / 100 % 10;
+    int year = metaData % 100;
     return year * base;
   }
 

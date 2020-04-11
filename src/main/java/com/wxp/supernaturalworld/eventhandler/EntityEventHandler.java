@@ -1,6 +1,5 @@
 package com.wxp.supernaturalworld.eventhandler;
 
-import com.wxp.supernaturalworld.SupernaturalMod;
 import com.wxp.supernaturalworld.capability.SupernaturalEntityI;
 import com.wxp.supernaturalworld.capability.provider.BindingEntityProvider;
 import com.wxp.supernaturalworld.capability.provider.SupernaturalEntityProvider;
@@ -68,16 +67,17 @@ public class EntityEventHandler {
     if (event.getEntity() instanceof EntityMob && !event.getEntity().world.isRemote) {
       // 怪物死亡
       int ticket = event.getEntity().world.rand.nextInt(100);
-      SupernaturalMod.logger.info("ticket:{}", ticket);
-      if (ticket >= 44 && ticket <= 55) {
+      if (ticket >= SupernaturalConfig.supernaturalRingConfig.minSupernaturalRingDropScale
+          && ticket <= SupernaturalConfig.supernaturalRingConfig.maxSupernaturalRingDropScale) {
         SupernaturalRingItemI.RingLevel wantedLevel;
-        if (event.getEntity().ticksExisted >= 100000) {
+        int ticks = event.getEntity().ticksExisted / 10;
+        if (ticks >= 100000) {
           wantedLevel = SupernaturalRingItemI.RingLevel.HUNDRED_THOUSAND;
-        } else if (event.getEntity().ticksExisted >= 10000) {
+        } else if (ticks >= 10000) {
           wantedLevel = SupernaturalRingItemI.RingLevel.TEN_THOUSAND;
-        } else if (event.getEntity().ticksExisted >= 1000) {
+        } else if (ticks >= 1000) {
           wantedLevel = SupernaturalRingItemI.RingLevel.THOUSAND;
-        } else if (event.getEntity().ticksExisted >= 100) {
+        } else if (ticks >= 100) {
           wantedLevel = SupernaturalRingItemI.RingLevel.HUNDRED;
         } else {
           wantedLevel = SupernaturalRingItemI.RingLevel.TEN;

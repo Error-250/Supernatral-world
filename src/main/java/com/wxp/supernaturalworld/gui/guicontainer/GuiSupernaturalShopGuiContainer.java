@@ -93,11 +93,12 @@ public class GuiSupernaturalShopGuiContainer extends AbstractGuiSupernaturalGuiC
           middleOffsetY + 5,
           0x000);
     }
+    drawString(this.fontRenderer, "Need:", middleOffsetX + 94, middleOffsetY + 55, 0x000);
     drawString(
         this.fontRenderer,
-        "Sell:" + simpleMoney(ShopMenuManager.getSellItem(index).getSellMoney()),
+        simpleMoney(ShopMenuManager.getSellItem(index).getSellMoney()),
         middleOffsetX + 94,
-        middleOffsetY + 55,
+        middleOffsetY + 62,
         0x000);
     if (supernaturalShopContainer.getSupernaturalShopSellSlot().getHasStack()) {
       ItemStack itemStack = supernaturalShopContainer.getSupernaturalShopSellSlot().getStack();

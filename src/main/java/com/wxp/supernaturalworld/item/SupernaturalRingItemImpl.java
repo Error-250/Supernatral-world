@@ -1,5 +1,6 @@
 package com.wxp.supernaturalworld.item;
 
+import com.wxp.supernaturalworld.SupernaturalMod;
 import com.wxp.supernaturalworld.capability.BindingEntityI;
 import com.wxp.supernaturalworld.manager.CapabilityManager;
 import net.minecraft.client.util.ITooltipFlag;
@@ -12,6 +13,7 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.List;
 
 /** @author wxp */
@@ -21,6 +23,11 @@ public class SupernaturalRingItemImpl extends Item implements SupernaturalRingIt
   private static ItemStack thousandYearAttackRing;
   private static ItemStack tenThousandYearAttackRing;
   private static ItemStack hundredThousandYearAttackRing;
+  private static ItemStack tenYearDefenceRing;
+  private static ItemStack hundredYearDefenceRing;
+  private static ItemStack thousandYearDefenceRing;
+  private static ItemStack tenThousandYearDefenceRing;
+  private static ItemStack hundredThousandYearDefenceRing;
   private static String name = "supernatural_ring";
 
   public SupernaturalRingItemImpl() {
@@ -38,6 +45,9 @@ public class SupernaturalRingItemImpl extends Item implements SupernaturalRingIt
   }
 
   public static RingLevel getRingLevel(ItemStack stack) {
+    if (0 == stack.getMetadata()) {
+      return RingLevel.TEN;
+    }
     return RingLevel.valueOf(stack.getMetadata() / 10000 - 1);
   }
 
@@ -71,84 +81,6 @@ public class SupernaturalRingItemImpl extends Item implements SupernaturalRingIt
     }
     return 0;
   }
-
-  //  private static float calculateRingAttack(ItemStack stack, RingType type) {
-  //    RingLevel level = getRingLevel(stack);
-  //    float base = 0;
-  //    if (level != null) {
-  //      switch (level) {
-  //        case TEN:
-  //          base = 1;
-  //          break;
-  //        case HUNDRED:
-  //          base = 1.5f;
-  //          break;
-  //        case THOUSAND:
-  //          base = 2;
-  //          break;
-  //        case TEN_THOUSAND:
-  //          base = 2.5f;
-  //          break;
-  //        case HUNDRED_THOUSAND:
-  //          base = 3;
-  //          break;
-  //        default:
-  //          base = 0;
-  //      }
-  //    }
-  //    int yearMeta = stack.getMetadata() / 100;
-  //    float attachAttack = base * (yearMeta % 10);
-  //    switch (type) {
-  //      case ATTACK:
-  //        attachAttack = attachAttack + base;
-  //        break;
-  //      case SPEED:
-  //        attachAttack -= base * 0.5f;
-  //        break;
-  //      case DEFENCE:
-  //        return 0;
-  //      default:
-  //    }
-  //    return attachAttack;
-  //  }
-  //
-  //  private static float calculateRingDefence(ItemStack stack, RingType ringType) {
-  //    RingLevel level = getRingLevel(stack);
-  //    float base = 0;
-  //    if (level != null) {
-  //      switch (level) {
-  //        case TEN:
-  //          base = 0.5f;
-  //          break;
-  //        case HUNDRED:
-  //          base = 1f;
-  //          break;
-  //        case THOUSAND:
-  //          base = 1.5f;
-  //          break;
-  //        case TEN_THOUSAND:
-  //          base = 2f;
-  //          break;
-  //        case HUNDRED_THOUSAND:
-  //          base = 2.5f;
-  //          break;
-  //        default:
-  //          base = 0;
-  //      }
-  //    }
-  //    int yearMeta = stack.getMetadata() / 100;
-  //    float attachDefence = base * (yearMeta % 10);
-  //    switch (ringType) {
-  //      case SPEED:
-  //        attachDefence -= base * 0.5f;
-  //        break;
-  //      case DEFENCE:
-  //        attachDefence += base * yearMeta;
-  //      case ATTACK:
-  //      default:
-  //    }
-  //    return attachDefence;
-  //  }
 
   private static String generateSkillDescription(RingSkill ringSkill) {
     StringBuilder stringBuilder = new StringBuilder("\n");
@@ -215,6 +147,32 @@ public class SupernaturalRingItemImpl extends Item implements SupernaturalRingIt
       ringSkill.setAttackDoubleRate(2.5f);
       ringSkill.setRingType(RingType.ATTACK);
       ringSkill.setSkillDesc(generateSkillDescription(ringSkill));
+    } else if (stack.getMetadata() == tenYearDefenceRing.getMetadata()) {
+      ringSkill.setSkillType(RingSkill.SkillType.DEFENCE_UP);
+      ringSkill.setDefence(1.5f);
+      ringSkill.setRingType(RingType.DEFENCE);
+      ringSkill.setSkillDesc(generateSkillDescription(ringSkill));
+    } else if (stack.getMetadata() == hundredYearDefenceRing.getMetadata()) {
+      ringSkill.setSkillType(RingSkill.SkillType.DEFENCE_UP);
+      ringSkill.setDefence(2.5f);
+      ringSkill.setRingType(RingType.DEFENCE);
+      ringSkill.setSkillDesc(generateSkillDescription(ringSkill));
+    } else if (stack.getMetadata() == thousandYearDefenceRing.getMetadata()) {
+      ringSkill.setSkillType(RingSkill.SkillType.DEFENCE_DOUBLE);
+      ringSkill.setDefenceDoubleRate(2f);
+      ringSkill.setRingType(RingType.DEFENCE);
+      ringSkill.setSkillDesc(generateSkillDescription(ringSkill));
+    } else if (stack.getMetadata() == tenThousandYearDefenceRing.getMetadata()) {
+      ringSkill.setSkillType(RingSkill.SkillType.DEFENCE_DOUBLE);
+      ringSkill.setDefenceDoubleRate(2.5f);
+      ringSkill.setRingType(RingType.DEFENCE);
+      ringSkill.setSkillDesc(generateSkillDescription(ringSkill));
+    } else if (stack.getMetadata() == hundredThousandYearDefenceRing.getMetadata()) {
+      ringSkill.setSkillType(RingSkill.SkillType.DEFENCE_UP_AND_DOUBLE);
+      ringSkill.setDefence(8f);
+      ringSkill.setDefenceDoubleRate(3f);
+      ringSkill.setRingType(RingType.DEFENCE);
+      ringSkill.setSkillDesc(generateSkillDescription(ringSkill));
     }
     return ringSkill;
   }
@@ -227,41 +185,22 @@ public class SupernaturalRingItemImpl extends Item implements SupernaturalRingIt
   @Override
   public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
     if (this.isInCreativeTab(tab)) {
-      //      for (RingLevel ringLevel : RingLevel.values()) {
-      //        int base = 0;
-      //        switch (ringLevel) {
-      //          case TEN:
-      //            base = 10;
-      //            break;
-      //          case HUNDRED:
-      //            base = 20;
-      //            break;
-      //          case THOUSAND:
-      //            base = 30;
-      //            break;
-      //          case TEN_THOUSAND:
-      //            base = 40;
-      //            break;
-      //          case HUNDRED_THOUSAND:
-      //            base = 50;
-      //            break;
-      //          default:
-      //            base = 0;
-      //        }
-      //        for (int i = 1; i <= 9; i++) {
-      //          for (RingType ringType : RingType.values()) {
-      //            int meta = (base + i) * 100 + ringType.ordinal();
-      //            items.add(new ItemStack(this, 1, meta));
-      //          }
-      //        }
-      //      }
       initRingItem();
 
       items.add(tenYearAttackRing);
       items.add(hundredYearAttackRing);
+
+      items.add(tenYearDefenceRing);
+      items.add(hundredYearDefenceRing);
+
       items.add(thousandYearAttackRing);
       items.add(tenThousandYearAttackRing);
+
+      items.add(thousandYearDefenceRing);
+      items.add(tenThousandYearDefenceRing);
+
       items.add(hundredThousandYearAttackRing);
+      items.add(hundredThousandYearDefenceRing);
     }
   }
 
@@ -309,7 +248,7 @@ public class SupernaturalRingItemImpl extends Item implements SupernaturalRingIt
     tooltip.add(rarityText.getFormattedText());
     tooltip.add(yearsText.getFormattedText());
     tooltip.add(bindText.getFormattedText());
-    tooltip.add(descText.getUnformattedText());
+    tooltip.addAll(Arrays.asList(descText.getUnformattedText().split("\n")));
   }
 
   private void initRingItem() {
@@ -327,6 +266,21 @@ public class SupernaturalRingItemImpl extends Item implements SupernaturalRingIt
     }
     if (hundredThousandYearAttackRing == null) {
       hundredThousandYearAttackRing = new ItemStack(this, 1, 50401);
+    }
+    if (tenYearDefenceRing == null) {
+      tenYearDefenceRing = new ItemStack(this, 1, 10101);
+    }
+    if (hundredYearDefenceRing == null) {
+      hundredYearDefenceRing = new ItemStack(this, 1, 20101);
+    }
+    if (thousandYearDefenceRing == null) {
+      thousandYearDefenceRing = new ItemStack(this, 1, 30301);
+    }
+    if (tenThousandYearDefenceRing == null) {
+      tenThousandYearDefenceRing = new ItemStack(this, 1, 40301);
+    }
+    if (hundredThousandYearDefenceRing == null) {
+      hundredThousandYearDefenceRing = new ItemStack(this, 1, 50501);
     }
   }
 }
