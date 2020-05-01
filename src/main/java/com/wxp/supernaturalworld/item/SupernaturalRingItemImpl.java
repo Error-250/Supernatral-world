@@ -1,16 +1,27 @@
 package com.wxp.supernaturalworld.item;
 
-import com.wxp.supernaturalworld.SupernaturalMod;
 import com.wxp.supernaturalworld.capability.BindingEntityI;
+import com.wxp.supernaturalworld.domain.SupernaturalLevel;
+import com.wxp.supernaturalworld.domain.SupernaturalRingInfo;
 import com.wxp.supernaturalworld.manager.CapabilityManager;
+import com.wxp.supernaturalworld.world.SupernaturalWordData;
+import com.wxp.supernaturalworld.world.SupernaturalWorldProvider;
+import com.wxp.supernaturalworld.world.SupernaturalWorldTeleporter;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -37,49 +48,8 @@ public class SupernaturalRingItemImpl extends Item implements SupernaturalRingIt
 
   @Override
   public String getUnlocalizedName(ItemStack stack) {
-    RingLevel level = SupernaturalRingItemImpl.getRingLevel(stack);
-    if (level == null) {
-      return String.format("item.%s_%s", name, RingLevel.TEN.name());
-    }
-    return String.format("item.%s_%s", name, level.name());
-  }
-
-  public static RingLevel getRingLevel(ItemStack stack) {
-    if (0 == stack.getMetadata()) {
-      return RingLevel.TEN;
-    }
-    return RingLevel.valueOf(stack.getMetadata() / 10000 - 1);
-  }
-
-  public static int getYears(ItemStack stack) {
-    if (stack.getItem() instanceof SupernaturalRingItemImpl) {
-      int base = 1;
-      RingLevel ringLevel = getRingLevel(stack);
-      if (ringLevel == null) {
-        return 0;
-      }
-      switch (ringLevel) {
-        case TEN:
-          base = 10;
-          break;
-        case HUNDRED:
-          base = 100;
-          break;
-        case THOUSAND:
-          base = 1000;
-          break;
-        case TEN_THOUSAND:
-          base = 10000;
-          break;
-        case HUNDRED_THOUSAND:
-          base = 100000;
-          break;
-        default:
-          base = 1;
-      }
-      return base * (stack.getMetadata() % 100);
-    }
-    return 0;
+    SupernaturalRingInfo supernaturalRingInfo = getRingInfo(stack);
+    return String.format("item.%s_%s", name, supernaturalRingInfo.getSupernaturalLevel().name());
   }
 
   private static String generateSkillDescription(RingSkill ringSkill) {
@@ -177,11 +147,6 @@ public class SupernaturalRingItemImpl extends Item implements SupernaturalRingIt
     return ringSkill;
   }
 
-  public static RingSkill.SkillType getSkillType(ItemStack itemStack) {
-    int meta = itemStack.getMetadata();
-    return RingSkill.SkillType.valueOfNumber(meta / 100 % 100);
-  }
-
   @Override
   public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
     if (this.isInCreativeTab(tab)) {
@@ -206,11 +171,8 @@ public class SupernaturalRingItemImpl extends Item implements SupernaturalRingIt
 
   @Override
   public EnumRarity getRarity(ItemStack stack) {
-    RingLevel level = SupernaturalRingItemImpl.getRingLevel(stack);
-    if (level == null) {
-      return EnumRarity.COMMON;
-    }
-    switch (level) {
+    SupernaturalRingInfo supernaturalRingInfo = getRingInfo(stack);
+    switch (supernaturalRingInfo.getSupernaturalLevel()) {
       case THOUSAND:
       case TEN_THOUSAND:
         return EnumRarity.RARE;
@@ -227,6 +189,7 @@ public class SupernaturalRingItemImpl extends Item implements SupernaturalRingIt
   public void addInformation(
       ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
     super.addInformation(stack, worldIn, tooltip, flagIn);
+    SupernaturalRingInfo supernaturalRingInfo = getRingInfo(stack);
     TextComponentTranslation rarityDesc =
         new TextComponentTranslation(
             "text.supernatural_ring.rarity." + getRarity(stack).rarityName);
@@ -236,7 +199,7 @@ public class SupernaturalRingItemImpl extends Item implements SupernaturalRingIt
             getRarity(stack).rarityColor + rarityDesc.getUnformattedText());
     TextComponentTranslation yearsText =
         new TextComponentTranslation(
-            "text.supernatural_ring.years", SupernaturalRingItemImpl.getYears(stack));
+            "text.supernatural_ring.years", supernaturalRingInfo.getYear());
     BindingEntityI bindingEntityI =
         stack.getCapability(CapabilityManager.bindingEntityICapability, null);
     boolean isBind = bindingEntityI != null && bindingEntityI.getBindingPlayerUuid() != null;
@@ -251,36 +214,110 @@ public class SupernaturalRingItemImpl extends Item implements SupernaturalRingIt
     tooltip.addAll(Arrays.asList(descText.getUnformattedText().split("\n")));
   }
 
+  @Override
+  public EnumActionResult onItemUse(
+      EntityPlayer player,
+      World worldIn,
+      BlockPos pos,
+      EnumHand hand,
+      EnumFacing facing,
+      float hitX,
+      float hitY,
+      float hitZ) {
+    if (!worldIn.isRemote) {
+      int destination = DimensionType.OVERWORLD.getId();
+      if (worldIn.provider.getDimensionType().getId()
+          != SupernaturalWorldProvider.supernaturalWorldType.getId()) {
+        destination = SupernaturalWorldProvider.supernaturalWorldType.getId();
+      }
+      SupernaturalWordData currentWorldData = SupernaturalWordData.getInstance(worldIn);
+      currentWorldData.setLastPosition(player.getPositionVector());
+      WorldServer worldServer = worldIn.getMinecraftServer().getWorld(destination);
+      SupernaturalWorldTeleporter teleporter = new SupernaturalWorldTeleporter(worldServer);
+      player.changeDimension(destination, teleporter);
+      SupernaturalWordData supernaturalWordData = SupernaturalWordData.getInstance(worldServer);
+      if (supernaturalWordData.getLastPosition() != null) {
+        player.setPositionAndUpdate(
+            supernaturalWordData.getLastPosition().x,
+            supernaturalWordData.getLastPosition().y,
+            supernaturalWordData.getLastPosition().z);
+      } else {
+        BlockPos blockPos = worldServer.provider.getRandomizedSpawnPoint();
+        player.setPositionAndUpdate(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+      }
+    }
+    return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+  }
+
+  public static SupernaturalRingInfo getRingInfo(ItemStack itemStack) {
+    if (!(itemStack.getItem() instanceof SupernaturalRingItemImpl)) {
+      return null;
+    }
+    SupernaturalRingInfo supernaturalRingInfo = new SupernaturalRingInfo();
+    int meta = itemStack.getMetadata();
+    if (meta == 0) {
+      itemStack.setItemDamage(tenYearAttackRing.getMetadata());
+      meta = tenYearAttackRing.getMetadata();
+    }
+    SupernaturalLevel supernaturalLevel = SupernaturalLevel.valueOf(meta / 1000 - 1);
+    supernaturalRingInfo.setSupernaturalLevel(supernaturalLevel);
+    RingSkill.SkillType skillType = RingSkill.SkillType.valueOfNumber(meta / 10 % 100);
+    supernaturalRingInfo.setSkillType(skillType);
+    int base;
+    switch (supernaturalLevel) {
+      case TEN:
+        base = 10;
+        break;
+      case HUNDRED:
+        base = 100;
+        break;
+      case THOUSAND:
+        base = 1000;
+        break;
+      case TEN_THOUSAND:
+        base = 10000;
+        break;
+      case HUNDRED_THOUSAND:
+        base = 100000;
+        break;
+      default:
+        base = 1;
+    }
+    supernaturalRingInfo.setBaseYear(meta % 10);
+    supernaturalRingInfo.setYear(base * supernaturalRingInfo.getBaseYear());
+    return supernaturalRingInfo;
+  }
+
   private void initRingItem() {
     if (tenYearAttackRing == null) {
-      tenYearAttackRing = new ItemStack(this, 1, 10001);
+      tenYearAttackRing = new ItemStack(this, 1, 1001);
     }
     if (hundredYearAttackRing == null) {
-      hundredYearAttackRing = new ItemStack(this, 1, 20001);
+      hundredYearAttackRing = new ItemStack(this, 1, 2001);
     }
     if (thousandYearAttackRing == null) {
-      thousandYearAttackRing = new ItemStack(this, 1, 30201);
+      thousandYearAttackRing = new ItemStack(this, 1, 3021);
     }
     if (tenThousandYearAttackRing == null) {
-      tenThousandYearAttackRing = new ItemStack(this, 1, 40201);
+      tenThousandYearAttackRing = new ItemStack(this, 1, 4021);
     }
     if (hundredThousandYearAttackRing == null) {
-      hundredThousandYearAttackRing = new ItemStack(this, 1, 50401);
+      hundredThousandYearAttackRing = new ItemStack(this, 1, 5041);
     }
     if (tenYearDefenceRing == null) {
-      tenYearDefenceRing = new ItemStack(this, 1, 10101);
+      tenYearDefenceRing = new ItemStack(this, 1, 1011);
     }
     if (hundredYearDefenceRing == null) {
-      hundredYearDefenceRing = new ItemStack(this, 1, 20101);
+      hundredYearDefenceRing = new ItemStack(this, 1, 2011);
     }
     if (thousandYearDefenceRing == null) {
-      thousandYearDefenceRing = new ItemStack(this, 1, 30301);
+      thousandYearDefenceRing = new ItemStack(this, 1, 3031);
     }
     if (tenThousandYearDefenceRing == null) {
-      tenThousandYearDefenceRing = new ItemStack(this, 1, 40301);
+      tenThousandYearDefenceRing = new ItemStack(this, 1, 4031);
     }
     if (hundredThousandYearDefenceRing == null) {
-      hundredThousandYearDefenceRing = new ItemStack(this, 1, 50501);
+      hundredThousandYearDefenceRing = new ItemStack(this, 1, 5051);
     }
   }
 }

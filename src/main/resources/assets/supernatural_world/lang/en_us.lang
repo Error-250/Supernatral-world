@@ -13,6 +13,9 @@ itemGroup.supernatural_world.supernatural_ring=Supernatural ring
 # block
 tile.supernatural_shop.name=Supernatural shop
 
+# entity
+entity.supernatural_spider.name=Spider with steve's face
+
 # key
 key.supernatural=Show supernatural
 key.category.supernatural=supernatural_world

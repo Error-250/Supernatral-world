@@ -54,19 +54,4 @@ public interface SupernaturalRingItemI {
           .orElse(null);
     }
   }
-
-  enum RingLevel {
-    TEN,
-    HUNDRED,
-    THOUSAND,
-    TEN_THOUSAND,
-    HUNDRED_THOUSAND;
-
-    public static RingLevel valueOf(int value) {
-      return Stream.of(values())
-          .filter(ringLevel -> ringLevel.ordinal() == value)
-          .findAny()
-          .orElse(null);
-    }
-  }
 }

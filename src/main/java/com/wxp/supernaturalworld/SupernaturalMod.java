@@ -1,18 +1,18 @@
 package com.wxp.supernaturalworld;
 
 import com.wxp.supernaturalworld.config.SupernaturalConfig;
-import com.wxp.supernaturalworld.manager.BlockManager;
-import com.wxp.supernaturalworld.manager.ItemManager;
-import com.wxp.supernaturalworld.manager.KeyManager;
-import com.wxp.supernaturalworld.manager.ShopMenuManager;
+import com.wxp.supernaturalworld.manager.*;
 import com.wxp.supernaturalworld.proxy.ModProxy;
 import com.wxp.supernaturalworld.register.CapabilityRegister;
 import com.wxp.supernaturalworld.register.NetworkRegister;
+import com.wxp.supernaturalworld.world.SupernaturalWorldProvider;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.oredict.OreDictionary;
 import org.apache.logging.log4j.Logger;
 
 /** @author wxp */
@@ -40,14 +40,21 @@ public class SupernaturalMod {
     ItemManager.initItem();
     KeyManager.initKey();
 
+    EntityManager.initEntity();
     CapabilityRegister.registerCapability();
     NetworkRegister.registerNetwork();
 
     ShopMenuManager.initShopMenu();
+
+    DimensionManager.registerDimension(
+        SupernaturalWorldProvider.supernaturalWorldType.getId(),
+        SupernaturalWorldProvider.supernaturalWorldType);
   }
 
   @EventHandler
   public void init(FMLInitializationEvent event) {
     modProxy.init(event);
+
+    OreDictionaryManager.initOreDictionary();
   }
 }

@@ -1,6 +1,8 @@
 package com.wxp.supernaturalworld.manager;
 
 import com.wxp.supernaturalworld.creativetab.SupernaturalRingCreativeTab;
+import com.wxp.supernaturalworld.domain.SupernaturalLevel;
+import com.wxp.supernaturalworld.domain.SupernaturalRingInfo;
 import com.wxp.supernaturalworld.item.SupernaturalRingItemI;
 import com.wxp.supernaturalworld.item.SupernaturalRingItemImpl;
 import lombok.AllArgsConstructor;
@@ -43,12 +45,12 @@ public class ShopMenuManager {
   }
 
   public static int getNextTypeIndexInSellItem(int index) {
-    SupernaturalRingItemI.RingSkill.SkillType skillType =
-        SupernaturalRingItemImpl.getSkillType(shopMenus.get(index).getSellItem());
+    SupernaturalRingInfo supernaturalRingInfo =
+        SupernaturalRingItemImpl.getRingInfo(shopMenus.get(index).getSellItem());
     for (int i = index; i < shopMenus.size(); i++) {
-      SupernaturalRingItemI.RingSkill.SkillType itemSkillType =
-          SupernaturalRingItemImpl.getSkillType(shopMenus.get(i).getSellItem());
-      if (!skillType.equals(itemSkillType)) {
+      SupernaturalRingInfo currentSupernaturalRingInfo =
+          SupernaturalRingItemImpl.getRingInfo(shopMenus.get(i).getSellItem());
+      if (!supernaturalRingInfo.getSkillType().equals(currentSupernaturalRingInfo.getSkillType())) {
         return i;
       }
     }
@@ -56,12 +58,12 @@ public class ShopMenuManager {
   }
 
   public static int getPreTypeIndexInSellItem(int index) {
-    SupernaturalRingItemI.RingSkill.SkillType skillType =
-        SupernaturalRingItemImpl.getSkillType(shopMenus.get(index).getSellItem());
+    SupernaturalRingInfo supernaturalRingInfo =
+        SupernaturalRingItemImpl.getRingInfo(shopMenus.get(index).getSellItem());
     for (int i = index; i > 4; i--) {
-      SupernaturalRingItemI.RingSkill.SkillType itemSkillType =
-          SupernaturalRingItemImpl.getSkillType(shopMenus.get(i).getSellItem());
-      if (!skillType.equals(itemSkillType)) {
+      SupernaturalRingInfo currentSupernaturalRingInfo =
+          SupernaturalRingItemImpl.getRingInfo(shopMenus.get(i).getSellItem());
+      if (!supernaturalRingInfo.getSkillType().equals(currentSupernaturalRingInfo.getSkillType())) {
         return i;
       }
     }
@@ -69,12 +71,14 @@ public class ShopMenuManager {
   }
 
   public static int getNextLevelIndexInSellItem(int index) {
-    SupernaturalRingItemI.RingLevel oldLevel =
-        SupernaturalRingItemImpl.getRingLevel(shopMenus.get(index).getSellItem());
+    SupernaturalRingInfo supernaturalRingInfo =
+        SupernaturalRingItemImpl.getRingInfo(shopMenus.get(index).getSellItem());
     for (int i = index; i < shopMenus.size(); i++) {
-      SupernaturalRingItemI.RingLevel itemRingLevel =
-          SupernaturalRingItemImpl.getRingLevel(shopMenus.get(i).getSellItem());
-      if (!oldLevel.equals(itemRingLevel)) {
+      SupernaturalRingInfo currentSupernaturalRingInfo =
+          SupernaturalRingItemImpl.getRingInfo(shopMenus.get(i).getSellItem());
+      if (!supernaturalRingInfo
+          .getSupernaturalLevel()
+          .equals(currentSupernaturalRingInfo.getSupernaturalLevel())) {
         return i;
       }
     }
@@ -82,12 +86,14 @@ public class ShopMenuManager {
   }
 
   public static int getPreLevelIndexInSellItem(int index) {
-    SupernaturalRingItemI.RingLevel oldLevel =
-        SupernaturalRingItemImpl.getRingLevel(shopMenus.get(index).getSellItem());
+    SupernaturalRingInfo supernaturalRingInfo =
+        SupernaturalRingItemImpl.getRingInfo(shopMenus.get(index).getSellItem());
     for (int i = index; i > 4; i--) {
-      SupernaturalRingItemI.RingLevel itemRingLevel =
-          SupernaturalRingItemImpl.getRingLevel(shopMenus.get(i).getSellItem());
-      if (!oldLevel.equals(itemRingLevel)) {
+      SupernaturalRingInfo currentSupernaturalRingInfo =
+          SupernaturalRingItemImpl.getRingInfo(shopMenus.get(i).getSellItem());
+      if (!supernaturalRingInfo
+          .getSupernaturalLevel()
+          .equals(currentSupernaturalRingInfo.getSupernaturalLevel())) {
         return i;
       }
     }
@@ -99,10 +105,9 @@ public class ShopMenuManager {
   }
 
   private static long calculateSellPrice(ItemStack itemStack) {
-    int metaData = itemStack.getMetadata();
-    SupernaturalRingItemI.RingLevel ringLevel = SupernaturalRingItemImpl.getRingLevel(itemStack);
+    SupernaturalRingInfo supernaturalRingInfo = SupernaturalRingItemImpl.getRingInfo(itemStack);
     int base = 0;
-    switch (ringLevel) {
+    switch (supernaturalRingInfo.getSupernaturalLevel()) {
       case TEN:
         base = 10;
         break;
@@ -120,8 +125,7 @@ public class ShopMenuManager {
         break;
       default:
     }
-    int year = metaData % 100;
-    return year * base;
+    return supernaturalRingInfo.getBaseYear() * base;
   }
 
   @Data

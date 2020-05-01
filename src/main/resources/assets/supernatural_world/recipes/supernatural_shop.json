@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "supernatural_world:supernatural_world_recipe",
+  "pattern": [
+    "aaa",
+    "axa",
+    "aaa"
+  ],
+  "key": {
+    "a": {
+      "type": "forge:ore_dict",
+      "ore": "plankWood"
+    },
+    "x": {
+      "type": "forge:ore_dict",
+      "ore": "supernatural_ring"
+    }
+  },
+  "result": {
+    "item": "supernatural_world:supernatural_shop",
+    "count": 1
+  }
+}

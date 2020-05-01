@@ -18,7 +18,9 @@ public class ItemManager {
     items = new ArrayList<>();
 
     for (SupernaturalNormalBlockI supernaturalNormalBlockI : BlockManager.getInitializedBlock()) {
-      items.add(supernaturalNormalBlockI.getItemBlock());
+      if (supernaturalNormalBlockI.getItemBlock() != null) {
+        items.add(supernaturalNormalBlockI.getItemBlock());
+      }
     }
     supernaturalRingItemImpl.setCreativeTab(SupernaturalRingCreativeTab.INSTANCE);
     items.add(supernaturalRingItemImpl);

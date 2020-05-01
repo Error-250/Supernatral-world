@@ -15,6 +15,7 @@ public class SupernaturalConfig {
   public static final String VERSION = "1.0";
   public static SupernaturalPowerConfig supernaturalPowerConfig = new SupernaturalPowerConfig();
   public static SupernaturalRingConfig supernaturalRingConfig = new SupernaturalRingConfig();
+  public static SupernaturalEntityConfig supernaturalEntityConfig = new SupernaturalEntityConfig();
 
   public static class SupernaturalPowerConfig {
     @Config.RangeInt(min = 1)
@@ -51,13 +52,33 @@ public class SupernaturalConfig {
     @Config.Comment("power from 96 to 100 need powers")
     public int powerBetween96and100 = 10000;
 
-    @Config.RangeDouble(min = 0)
-    @Config.Comment("attack up per power level")
-    public Double attackUpPerPowerLevel = 0.5;
+    @Config.RangeDouble(min = 0, max = 0.5)
+    @Config.Comment("attack up between 0 and 20 per power level")
+    public Double attackUpBetween0And20PerPowerLevel = 0.1;
+
+    @Config.RangeDouble(min = 0, max = 0.5)
+    @Config.Comment("attack up between 20 and 40 per power level")
+    public Double attackUpBetween20And40PerPowerLevel = 0.2;
+
+    @Config.RangeDouble(min = 0, max = 0.5)
+    @Config.Comment("attack up between 40 and 70 per power level")
+    public Double attackUpBetween40And70PerPowerLevel = 0.3;
+
+    @Config.RangeDouble(min = 0, max = 0.5)
+    @Config.Comment("attack up between 70 and 90 per power level")
+    public Double attackUpBetween70And90PerPowerLevel = 0.4;
+
+    @Config.RangeDouble(min = 0, max = 0.5)
+    @Config.Comment("attack up between 90 and 100 per power level")
+    public Double attackUpBetween90And100PerPowerLevel = 0.5;
 
     @Config.RangeDouble(min = 0)
     @Config.Comment("defence up per power level")
     public Double defenceUpPerPowerLevel = 0.25;
+
+    @Config.RangeDouble(min = 0, max = 0.1)
+    @Config.Comment("defence up per year for monster")
+    public Double monsterDefenceUpPerYear = 0.005;
   }
 
   public static class SupernaturalRingConfig {
@@ -68,5 +89,31 @@ public class SupernaturalConfig {
     @Config.RangeInt(min = 0, max = 99)
     @Config.Comment("min scale for supernatural ring drop.")
     public int maxSupernaturalRingDropScale = 53;
+  }
+
+  public static class SupernaturalEntityConfig {
+    @Config.RangeInt(min = 20)
+    @Config.Comment("the base health for ten year monster.")
+    public int tenYearMonsterBaseHealth = 2;
+
+    @Config.RangeInt(min = 20)
+    @Config.Comment("the base health for hundred year monster.")
+    public int hundredYearMonsterBaseHealth = 4;
+
+    @Config.RangeInt(min = 20)
+    @Config.Comment("the base health for thousand year monster.")
+    public int thousandYearMonsterBaseHealth = 8;
+
+    @Config.RangeInt(min = 20)
+    @Config.Comment("the base health for ten-thousand year monster.")
+    public int tenThousandYearMonsterBaseHealth = 16;
+
+    @Config.RangeInt(min = 20)
+    @Config.Comment("the base health for hundred-thousand year monster.")
+    public int hundredThousandYearMonsterBaseHealth = 32;
+
+    @Config.RangeDouble(min = 0.1, max = 1)
+    @Config.Comment("the rate for monster drop ring.")
+    public double monsterDropRingRate = 0.5;
   }
 }

@@ -2,6 +2,8 @@ package com.wxp.supernaturalworld.register;
 
 import com.wxp.supernaturalworld.config.SupernaturalConfig;
 import com.wxp.supernaturalworld.creativetab.SupernaturalRingCreativeTab;
+import com.wxp.supernaturalworld.domain.SupernaturalLevel;
+import com.wxp.supernaturalworld.domain.SupernaturalRingInfo;
 import com.wxp.supernaturalworld.item.SupernaturalRingItemI;
 import com.wxp.supernaturalworld.item.SupernaturalRingItemImpl;
 import com.wxp.supernaturalworld.manager.ItemManager;
@@ -37,15 +39,15 @@ public class ItemRegister {
           SupernaturalRingItemImpl supernaturalRingItem = (SupernaturalRingItemImpl) item;
           supernaturalRingItem.getSubItems(SupernaturalRingCreativeTab.INSTANCE, subItems);
           for (ItemStack subItem : subItems) {
-            SupernaturalRingItemI.RingLevel ringLevel =
-                SupernaturalRingItemImpl.getRingLevel(subItem);
+            SupernaturalRingInfo supernaturalRingInfo =
+                SupernaturalRingItemImpl.getRingInfo(subItem);
             ModelLoader.setCustomModelResourceLocation(
                 subItem.getItem(),
                 subItem.getMetadata(),
                 new ModelResourceLocation(
                     Objects.requireNonNull(item.getRegistryName())
                         + "_"
-                        + ringLevel.name().toLowerCase(),
+                        + supernaturalRingInfo.getSupernaturalLevel().name().toLowerCase(),
                     "inventory"));
           }
         } else {

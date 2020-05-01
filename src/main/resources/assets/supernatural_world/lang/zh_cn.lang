@@ -13,6 +13,9 @@ itemGroup.supernatural_world.supernatural_ring=魂环
 # block
 tile.supernatural_shop.name=魂环商店
 
+# entity
+entity.supernatural_spider.name=人面魔蛛
+
 # key
 key.supernatural=展示魂力数据
 key.category.supernatural=魂力相关
