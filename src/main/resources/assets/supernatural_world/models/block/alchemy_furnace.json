@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "side": "supernatural_world:blocks/alchemy_furnace_side",
+    "top": "supernatural_world:blocks/alchemy_furnace_top",
+    "bottom": "supernatural_world:blocks/alchemy_furnace_top"
+  }
+}

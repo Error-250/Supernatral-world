@@ -50,7 +50,7 @@ public class SupernaturalMonster extends EntityMob {
     this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
     this.tasks.addTask(6, new SupernaturalAIMonsterIdle(supernaturalAIMonsterAttack, this));
     this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
-    this.targetTasks.addTask(2, new SupernaturalAIAttackableTarget(this, EntityPlayer.class));
+    this.targetTasks.addTask(2, new SupernaturalAIAttackableTarget<>(this, EntityPlayer.class));
   }
 
   @Override

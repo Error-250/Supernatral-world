@@ -1,0 +1,34 @@
+{
+  "parent": "builtin/generated",
+  "display": {
+    "ground": {
+      "rotation": [0, 0, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.3,0.3,0.3]
+    },
+    "thirdperson_righthand": {
+      "rotation": [ 0, 0, 0 ],
+      "translation": [ 0, 1, -2 ],
+      "scale": [ 0.55, 0.55, 0.55 ]
+    },
+    "firstperson_righthand": {
+      "rotation": [ 0, -90, 25 ],
+      "translation": [ 0, 4, 2 ],
+      "scale": [ 0.5, 0.5, 0.5 ]
+    }
+  },
+  "overrides": [
+    {
+      "predicate": {"supernatural_world:potion_level": 0},
+      "model": "supernatural_world:item/primary_pill_not_hungry"
+    },
+    {
+      "predicate": {"supernatural_world:potion_level": 1},
+      "model": "supernatural_world:item/middle_pill_not_hungry"
+    },
+    {
+      "predicate": {"supernatural_world:potion_level": 2},
+      "model": "supernatural_world:item/senior_pill_not_hungry"
+    }
+  ]
+}

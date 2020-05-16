@@ -5,6 +5,12 @@ item.supernatural_ring_HUNDRED.name=Hundred year supernatural ring
 item.supernatural_ring_THOUSAND.name=Thousand year supernatural ring
 item.supernatural_ring_TEN_THOUSAND.name=Ten thousand year supernatural ring
 item.supernatural_ring_HUNDRED_THOUSAND.name=Hundred thousand year supernatural ring
+item.primary_pill_not_hungry.name=Primary pill for hungry
+item.middle_pill_not_hungry.name=Middle pill for hungry
+item.senior_pill_not_hungry.name=Senior pill for hungry
+item.primary_pill_up_supernatural_power.name=Primary pill for up supernatural power
+item.middle_pill_up_supernatural_power.name=Middle pill for up supernatural power
+item.senior_pill_up_supernatural_power.name=Senior pill for up supernatural power
 
 # item group
 itemGroup.supernatural_world=Supernatural world
@@ -12,6 +18,7 @@ itemGroup.supernatural_world.supernatural_ring=Supernatural ring
 
 # block
 tile.supernatural_shop.name=Supernatural shop
+tile.alchemy_furnace.name=Alchemy furnace
 
 # entity
 entity.supernatural_spider.name=Spider with steve's face

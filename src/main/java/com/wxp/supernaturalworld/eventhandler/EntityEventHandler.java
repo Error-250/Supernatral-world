@@ -1,6 +1,5 @@
 package com.wxp.supernaturalworld.eventhandler;
 
-import com.wxp.supernaturalworld.SupernaturalMod;
 import com.wxp.supernaturalworld.capability.SupernaturalEntityI;
 import com.wxp.supernaturalworld.capability.provider.BindingEntityProvider;
 import com.wxp.supernaturalworld.capability.provider.SupernaturalEntityProvider;
@@ -8,11 +7,9 @@ import com.wxp.supernaturalworld.config.SupernaturalConfig;
 import com.wxp.supernaturalworld.domain.SupernaturalHelper;
 import com.wxp.supernaturalworld.domain.SupernaturalLevel;
 import com.wxp.supernaturalworld.entity.SupernaturalMonster;
-import com.wxp.supernaturalworld.entity.SupernaturalSpiderEntity;
-import com.wxp.supernaturalworld.item.SupernaturalRingItemI;
 import com.wxp.supernaturalworld.item.SupernaturalRingItemImpl;
 import com.wxp.supernaturalworld.manager.CapabilityManager;
-import com.wxp.supernaturalworld.manager.ShopMenuManager;
+import com.wxp.supernaturalworld.manager.PotionManager;
 import com.wxp.supernaturalworld.register.NetworkRegister;
 import com.wxp.supernaturalworld.world.SupernaturalWorldProvider;
 import net.minecraft.entity.Entity;
@@ -21,20 +18,18 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /** @author wxp */
 @Mod.EventBusSubscriber(modid = SupernaturalConfig.MOD_ID)
@@ -158,6 +153,29 @@ public class EntityEventHandler {
                   SupernaturalHelper.calculateLevel(monster.getActiveYears()), monster.getRNG()));
       entityItem.setDefaultPickupDelay();
       event.getDrops().add(entityItem);
+    }
+  }
+
+  @SubscribeEvent
+  public static void onEntityUpdate(LivingEvent.LivingUpdateEvent event) {
+    if (event.getEntity() instanceof EntityPlayer) {
+      if (event.getEntity().world.isRemote) {
+        EntityPlayer entityPlayer = (EntityPlayer) event.getEntity();
+        PotionEffect potionEffect =
+            entityPlayer.getActivePotionEffect(PotionManager.potionNotHungry);
+        if (potionEffect != null) {
+          entityPlayer.getFoodStats().addExhaustion(-4.0f);
+        }
+        // 恢复power
+        if (entityPlayer.getIdleTime() > 0 && entityPlayer.getIdleTime() % 20 == 0) {
+          SupernaturalEntityI supernaturalEntityI =
+              entityPlayer.getCapability(CapabilityManager.supernaturalEntityICapability, null);
+          if (supernaturalEntityI != null) {
+            supernaturalEntityI.enhanceSupernaturalPower(1L);
+            NetworkRegister.syncSupernaturalEntityMessage(supernaturalEntityI, (EntityPlayerMP) entityPlayer);
+          }
+        }
+      }
     }
   }
 }

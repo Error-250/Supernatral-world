@@ -31,7 +31,7 @@ public interface SupernaturalEntityI {
    * @param power 使用的魂力数量
    * @return 是否使用成功
    */
-  boolean userSupernaturalPower(Long power);
+  boolean useSupernaturalPower(Long power);
 
   /**
    * 提高玩家魂力值

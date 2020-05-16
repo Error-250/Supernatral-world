@@ -37,7 +37,7 @@ public class SupernaturalEntityImpl implements SupernaturalEntityI {
   }
 
   @Override
-  public boolean userSupernaturalPower(Long power) {
+  public boolean useSupernaturalPower(Long power) {
     if (supernaturalPower >= power) {
       supernaturalPower -= power;
       return true;

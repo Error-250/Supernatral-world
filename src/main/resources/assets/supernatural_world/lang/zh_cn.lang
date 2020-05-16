@@ -5,6 +5,12 @@ item.supernatural_ring_HUNDRED.name=百年魂环
 item.supernatural_ring_THOUSAND.name=千年魂环
 item.supernatural_ring_TEN_THOUSAND.name=万年魂环
 item.supernatural_ring_HUNDRED_THOUSAND.name=十万年魂环
+item.primary_pill_not_hungry.name=初级辟谷丹
+item.middle_pill_not_hungry.name=中级辟谷丹
+item.senior_pill_not_hungry.name=高级辟谷丹
+item.primary_pill_up_supernatural_power.name=初级升魂丹
+item.middle_pill_up_supernatural_power.name=中级升魂丹
+item.senior_pill_up_supernatural_power.name=高级升魂丹
 
 # item group
 itemGroup.supernatural_world=超自然世界
@@ -12,6 +18,7 @@ itemGroup.supernatural_world.supernatural_ring=魂环
 
 # block
 tile.supernatural_shop.name=魂环商店
+tile.alchemy_furnace.name=炼丹炉
 
 # entity
 entity.supernatural_spider.name=人面魔蛛

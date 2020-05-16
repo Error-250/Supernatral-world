@@ -43,6 +43,7 @@ public class SupernaturalMod {
     EntityManager.initEntity();
     CapabilityRegister.registerCapability();
     NetworkRegister.registerNetwork();
+    PotionManager.initPotion();
 
     ShopMenuManager.initShopMenu();
 

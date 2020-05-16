@@ -1,0 +1,6 @@
+{
+  "parent": "supernatural_world:item/pill_not_hungry",
+  "textures": {
+    "layer0": "supernatural_world:items/primary_pill_not_hungry"
+  }
+}

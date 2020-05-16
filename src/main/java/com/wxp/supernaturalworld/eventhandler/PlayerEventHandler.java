@@ -77,18 +77,22 @@ public class PlayerEventHandler {
     }
     DamageSource source = event.getSource();
     float hurtAmount = event.getAmount();
+    boolean playerUsePower = false;
+    EntityPlayerMP entityPlayerMP = null;
     if (source.getTrueSource() instanceof EntityPlayer) {
       EntityPlayer attacker = (EntityPlayer) source.getTrueSource();
       float attachAttack = calculatePlayerAttachAttack(attacker);
       if (attachAttack > 0) {
-        SupernaturalMod.logger.info("attach attack:{}", attachAttack);
-        hurtAmount += attachAttack;
+        if (playerUsePower(attacker)) {
+          hurtAmount += attachAttack;
+          playerUsePower = true;
+          entityPlayerMP = (EntityPlayerMP) attacker;
+        }
       }
     }
     if (source.getTrueSource() instanceof SupernaturalMonster) {
       float attachAttack = ((SupernaturalMonster) source.getTrueSource()).getMonsterAttack();
       if (attachAttack > 0) {
-        SupernaturalMod.logger.info("attach attack:{}", attachAttack);
         hurtAmount += attachAttack;
       }
     }
@@ -96,19 +100,28 @@ public class PlayerEventHandler {
       EntityPlayer target = (EntityPlayer) event.getEntity();
       float attachDefence = calculatePlayerDefence(target);
       if (attachDefence > 0) {
-        SupernaturalMod.logger.info("attach defence:{}", attachDefence);
-        hurtAmount -= attachDefence;
+        if (playerUsePower(target)) {
+          hurtAmount -= attachDefence;
+          playerUsePower = true;
+          entityPlayerMP = (EntityPlayerMP) target;
+        }
       }
     }
     if (event.getEntity() instanceof SupernaturalMonster) {
       float attachDefence = ((SupernaturalMonster) event.getEntity()).getMonsterDefence();
       if (attachDefence > 0) {
-        SupernaturalMod.logger.info("attach defence:{}", attachDefence);
         hurtAmount -= attachDefence;
       }
     }
     if (hurtAmount != event.getAmount()) {
       event.setAmount(hurtAmount);
+    }
+    if (playerUsePower) {
+      SupernaturalEntityI supernaturalEntityI =
+          entityPlayerMP.getCapability(CapabilityManager.supernaturalEntityICapability, null);
+      if (supernaturalEntityI != null) {
+        NetworkRegister.syncSupernaturalEntityMessage(supernaturalEntityI, entityPlayerMP);
+      }
     }
   }
 
@@ -182,5 +195,14 @@ public class PlayerEventHandler {
       }
     }
     return 0;
+  }
+
+  private static boolean playerUsePower(EntityPlayer entityPlayer) {
+    SupernaturalEntityI supernaturalEntityI =
+        entityPlayer.getCapability(CapabilityManager.supernaturalEntityICapability, null);
+    if (supernaturalEntityI != null) {
+      return supernaturalEntityI.useSupernaturalPower(1L);
+    }
+    return false;
   }
 }

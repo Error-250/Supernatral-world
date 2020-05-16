@@ -1,0 +1,25 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "cube_bottom_top",
+    "textures": {
+      "top": "supernatural_world:blocks/alchemy_furnace_top",
+      "bottom": "supernatural_world:blocks/alchemy_furnace_top",
+      "side": "supernatural_world:blocks/alchemy_furnace_side"
+    }
+  },
+  "variants" : {
+    "burning": {
+      "true": {
+        "textures": {
+          "side": "supernatural_world:blocks/alchemy_furnace_side_fire"
+        }
+      },
+      "false": {
+        "textures": {
+          "side": "supernatural_world:blocks/alchemy_furnace_side"
+        }
+      }
+    }
+  }
+}
